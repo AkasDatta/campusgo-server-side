@@ -12,6 +12,7 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cv3dsgq.mongodb.net/?retryWrites=true&w=majority`;
 
 let collegeCollection;
+let bookingCollection; // Add this line
 
 async function run() {
   try {
@@ -25,6 +26,7 @@ async function run() {
 
     await client.connect();
     collegeCollection = client.db('campusGo').collection('college');
+    bookingCollection = client.db('campusGo').collection('apply'); // Move this line here
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } catch (error) {
@@ -44,7 +46,6 @@ app.get('/college', async (req, res) => {
     res.status(500).json({ error: "Failed to fetch colleges" });
   }
 });
-
 
 app.get('/college/:id', async (req, res) => {
   try {
@@ -68,7 +69,13 @@ app.get('/apply/:id', async (req, res) => {
   }
 });
 
-
+// apply
+app.post('/apply', async (req, res) => {
+  const applys = req.body;
+  console.log(applys);
+  const result = await bookingCollection.insertOne(applys);
+  res.send(result);
+});
 
 app.get('/', (req, res) => {
   res.send('campus is running');
