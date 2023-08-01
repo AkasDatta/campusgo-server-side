@@ -70,6 +70,16 @@ app.get('/apply/:id', async (req, res) => {
 });
 
 // apply
+app.get('/apply', async(req, res) => {
+  console.log(req.query.email);
+  let query = {};
+  if(req.query?.email) {
+    query = {email: req.query.email}
+  }
+  const result = await bookingCollection.find().toArray();
+  res.send(result);
+})
+
 app.post('/apply', async (req, res) => {
   const applys = req.body;
   console.log(applys);
