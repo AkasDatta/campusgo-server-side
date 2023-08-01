@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const cors = require('cors');
 const port = process.env.PORT || 5000;
@@ -44,6 +44,31 @@ app.get('/college', async (req, res) => {
     res.status(500).json({ error: "Failed to fetch colleges" });
   }
 });
+
+
+app.get('/college/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await collegeCollection.findOne(query);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ error: 'Failed to fetch college details' });
+  }
+});
+
+app.get('/apply/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await collegeCollection.findOne(query);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ error: 'Failed to fetch college details' });
+  }
+});
+
+
 
 app.get('/', (req, res) => {
   res.send('campus is running');
