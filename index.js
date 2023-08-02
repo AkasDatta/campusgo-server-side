@@ -62,6 +62,10 @@ app.get('/apply/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const query = { _id: new ObjectId(id) };
+
+    const options = {
+      projection: { collegeImage: 1, admissionDates: 1, collegeName: 1, description: 1},
+    }
     const result = await collegeCollection.findOne(query);
     res.send(result);
   } catch (error) {
@@ -86,6 +90,14 @@ app.post('/apply', async (req, res) => {
   const result = await bookingCollection.insertOne(applys);
   res.send(result);
 });
+
+app.delete('/apply/:id', async(req, res) =>{
+  const id = req.params.id;
+  const query = {_id: new ObjectId(id)}
+  const result = await bookingCollection.deleteOne(query);
+  res.send(result);
+})
+
 
 app.get('/', (req, res) => {
   res.send('campus is running');
