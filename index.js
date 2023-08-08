@@ -98,6 +98,7 @@ app.delete('/apply/:id', async(req, res) =>{
   res.send(result);
 })
 
+run().catch(console.dir);
 
 app.get('/', (req, res) => {
   res.send('campus is running');
