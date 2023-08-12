@@ -40,6 +40,7 @@ app.get('/college', async (req, res) => {
   try {
     const cursor = collegeCollection.find();
     const result = await cursor.toArray();
+    console.log(result);
     res.send(result);
   } catch (error) {
     console.error("Error fetching colleges:", error);
@@ -80,7 +81,7 @@ app.get('/apply', async(req, res) => {
   if(req.query?.email) {
     query = {email: req.query.email}
   }
-  const result = await bookingCollection.find().toArray();
+  const result = await bookingCollection.find({}).toArray();
   res.send(result);
 })
 
